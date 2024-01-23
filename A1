@@ -1,0 +1,38 @@
+import numpy as np
+
+
+def number_bracelet(n, k):
+    if n >= 10 or k >= 10:
+        raise ValueError('n and k must be less than 10')
+    
+    sequence = [n, k]
+    
+    while True:
+        next_term = (sequence[-2] + sequence[-1]) % 10
+        if len(sequence) > 2 and sequence[-1] == n and next_term == k:
+            sequence.append(next_term)
+            break
+        sequence.append(next_term)
+            
+    return sequence
+
+def count_unique_bracelets_with_complete_loop():
+    seen_pairs = set()
+    unique_bracelets_count = 0
+
+
+    for n in range(10):
+        for k in range(10):
+            if (n, k) not in seen_pairs:
+                bracelet = number_bracelet(n, k)
+                # Add the pairs to the seen set
+                for i in range(len(bracelet) - 1):
+                    seen_pairs.add((bracelet[i], bracelet[i + 1]))
+                # Increment the count of unique bracelets
+                unique_bracelets_count += 1
+
+    return unique_bracelets_count
+
+count_unique_bracelets_with_complete_loop()
+
+
